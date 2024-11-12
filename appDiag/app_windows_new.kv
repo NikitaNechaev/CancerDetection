@@ -1,0 +1,280 @@
+WindowManager:
+    MainWindow:
+    DiagndWindow:
+    AboutWindow:
+    FAQWindow:
+    MyWidget:
+    ResultWindow:
+
+
+
+<RoundedButton@Button>
+    background_color:(0,0,0,0)
+    background_normal:''
+    canvas.before:
+        Color:
+            rgba:(45/255,84/255,150/255,1)
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            radius:[30]
+
+<RoundedButtonT2@Button>
+    #background_normal: ''
+    background_color:(0,0,0,0)
+    btn_color: [114/255,4/255,113/255,1] if self.state == 'normal' else [114/255,74/255,113/255,1]
+    canvas.before:
+        Color:        
+            rgba:self.btn_color
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            radius:[30]
+<MainWindow>:
+    name: "main"
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        BoxLayout:
+            orientation: "horizontal"
+            size: root.width, 100
+            # padding: 10
+            # spacing: 10
+            
+            Image:
+                source: "img/mirea.png"
+                allow_stretch: True
+                # size_hint: None, None
+                # size: 210, 96                            
+            BoxLayout:
+                orientation: "horizontal"
+                size: root.width, 100   
+            Image:
+                source: "img/trete-mnenie.jpg"
+                allow_stretch: True
+                # size_hint: None, None
+                # size: 210, 96
+                
+        # Label:
+        #     #text: "Третье мнение\nВо всем виноваты Гены"   
+        #     text: "Во всем виноваты Гены"          
+        #     font_size: 32
+        #     halign: 'center'
+        #     valign: 'middle'
+
+
+        Label:
+            markup: True
+            text: "[font=font/tilda][color=#fff][b]Диагностика рака кожи[/b][/color][/font]"            
+            font_size: 70
+            text_size:(root.width,None)
+            halign: 'center'
+            valign: 'middle'
+       
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]Диагностировать[/b][/font]" 
+            font_size: 32
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            on_release: 
+                app.root.current="diagnostic"
+                root.manager.transition.direction = "left"
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]О проекте[/b][/font]" 
+            font_size: 32
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            on_release: 
+                app.root.current="about"
+                root.manager.transition.direction = "right"
+
+<MyWidget>:
+    id: my_widget
+    name: "MyWidget"
+
+    GridLayout:
+        cols: 2
+        FileChooserListView:
+            id: filechooser
+            on_selection:my_widget.selected(filechooser.selection)
+        Image:
+            id: image
+            source:""
+    FloatLayout:
+        size: root.width, 100
+        RoundedButtonT2:
+            markup: True
+            text: "[font=font/tilda][b]Выбрать\nфотографию[/b][/font]" 
+            halign: 'center'
+            pos_hint: {'center_x': .5, 'y': 0.05}
+            size_hint:(.3,.1)
+            font_size: 32
+            on_release:
+                app.root.current="res_window"
+                root.manager.transition.direction = "down"    
+
+    
+
+<DiagndWindow>:
+
+    name: "diagnostic"
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        Label:           
+            markup: True
+            text: "[font=font/tilda][b]Диагностирование[/b][/font]" 
+            font_size: 32   
+
+        Label:
+            markup: True
+            text: "[font=font/tilda]Есть подозрения на меланомы/ нет подозрений\nЕсли есть подозрения:\n1. Сохранять спокойствие\n2.В срочном порядке обратиться к врачу\nЕсли нет подозрений:\n1. Соблядайте рекомендации по профилактике меланомы: \nне находитесь долго под прямыми лучами солнца, носите солнцезащитные очки, \nне забывайте пользоваться Spf кремами (более 30, если в городе, и 50+ на пляже,\n учитывайте, что лучи бывают UVA и UVB типов, и кремы могут отличаться)\n2.Регулярно посещайте дерматолога раз в год[/font]"
+            font_size: 24   
+
+        BoxLayout:
+            orientation: "horizontal"
+            size: root.width, 100
+            # padding: 10
+            # spacing: 10                 
+            RoundedButtonT2:                
+                markup: True
+                text: "[font=font/tilda][b]Галерея[/b][/font]" 
+                pos_hint: {'center_x': .5}
+                size_hint:(1,.3)
+                font_size: 32
+                on_release: 
+                    app.root.current="MyWidget"
+                    root.manager.transition.direction = "right"
+                   
+            RoundedButtonT2:                
+                markup: True
+                text: "[font=font/tilda][b]Помощь[/b][/font]" 
+                pos_hint: {'center_x': .5}
+                size_hint:(1,.3)
+                font_size: 32
+                on_release:
+                    app.root.current="faq"
+                    root.manager.transition.direction = "up"
+
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]На главную[/b][/font]"
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            font_size: 32
+            on_release: 
+                app.root.current="main"
+                root.manager.transition.direction = "right"
+
+<AboutWindow>:
+    name: "about"
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        Label:           
+            markup: True
+            text: "[font=font/tilda][b]О проекте[/b][/font]"
+            font_size: 40      
+                #text_size:(root.width,root.height)
+            halign: 'center'
+            valign: 'top'
+
+        Label:           
+            markup: True
+            text: '[font=font/tilda]Мы, команда [b]"Во всём виноваты Гены"[/b], представляем Вашему вниманию наше приложение для первичной самостоятельной диагностики рака кожи.[/font]\n\n[color=#edd6cc][i][b]!!! Внимание !!![/b]\nДиагностировать рак может только врач, поэтому вам следует обратиться в специальную клинику.[/i][/color]'
+            font_size: 30
+            text_size:(root.width,None)
+            padding: 50
+            spacing: 20
+            halign: 'center'
+            valign: 'top'
+            
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]На главную[/b][/font]"
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            font_size: 32
+            on_release: 
+                app.root.current="main"
+                root.manager.transition.direction = "left"
+
+<FAQWindow>:
+    name: "faq"
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        Label:            
+            markup: True
+            text: "[font=font/tilda][b]Помощь[/b][/font]"
+            font_size: 32      
+        
+        Label:           
+            markup: True
+            text: "[font=font/tilda]Для более точной диагностики необходимо прикреплять фотографии в хорошем качестве и с достаточным освещением[/font]"
+            font_size: 30
+            text_size:(root.width,None)
+            padding: 50
+            spacing: 20
+            halign: 'center'
+            valign: 'top'
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]Назад[/b][/font]"
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            font_size: 32
+            on_release: 
+                app.root.current="diagnostic"
+                root.manager.transition.direction = "down"
+
+<ResultWindow>
+    name: "res_window"
+    id: res_window
+    
+    label_res: label1
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        Label:
+            id: label1
+            text: ""
+            font_size: 36
+            halign: 'center'
+            valign: 'top'
+        RoundedButton:
+            id: m_button
+            text: "Узнать результат"
+            markup: True
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            font_size: 32
+            on_release: 
+                root.change_text(4443)
+        RoundedButtonT2:           
+            markup: True
+            text: "[font=font/tilda][b]Назад[/b][/font]"
+            pos_hint: {'center_x': .5}
+            size_hint:(1,.3)
+            font_size: 32
+            on_release: 
+                app.root.current="diagnostic"
+                root.manager.transition.direction = "down"
